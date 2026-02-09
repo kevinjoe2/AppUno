@@ -72,6 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       final email = _emailController.text.trim();
                       final name = email.split('@').first;
                       await SessionService.setUserName(name.isNotEmpty ? name : 'Usuario');
+                      // Simulated auth token persisted securely for auto-login
+                      final token =
+                          'tok_${DateTime.now().millisecondsSinceEpoch}_${email.hashCode}';
+                      await SessionService.setAuthToken(token);
                       if (!mounted) return;
                       Navigator.pushReplacementNamed(context, '/main');
                     }

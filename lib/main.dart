@@ -3,9 +3,33 @@ import 'screens/welcome_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/main_screen.dart';
+import 'services/session.dart';
 
 void main() {
   runApp(const MyApp());
+}
+
+class _AuthGate extends StatelessWidget {
+  const _AuthGate();
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String?>(
+      future: SessionService.getAuthToken(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+        final hasToken = (snapshot.data ?? '').isNotEmpty;
+        if (hasToken) {
+          return const MainScreen();
+        }
+        return const WelcomeScreen();
+      },
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +49,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterScreen(),
         '/main': (context) => const MainScreen(),
       },
-      home: const WelcomeScreen(),
+      home: const _AuthGate(),
     );
   }
 }
