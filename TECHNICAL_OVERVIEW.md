@@ -5,7 +5,7 @@ This document describes the project structure, listing folders and files in a tr
 ## Project Tree
 
 ```
-flutter_application_1/
+app_uno/
 ├─ pubspec.yaml
 ├─ README.md (optional)
 ├─ TECHNICAL_OVERVIEW.md  ← You are here
